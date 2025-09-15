@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Peruru Sai Balaji Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        /* About Section */
+
+        .profile-img {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            border: 5px solid #f1f5f9;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-section {
+            padding: 80px 20px;
+            background: #f9fafb;
+        }
+
+        .about-section .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #1e3a8a; /* navy blue */
+            position: relative;
+        }
+
+        .about-section .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #2563eb;
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            text-align: justify;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-content:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .about-content strong {
+            color: #2563eb;
+        }
+
+
+        /* Project Cards */
+        .project-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #contact h2 {
+            margin-bottom: 20px;
+        }
+
+        #contact form .form-control {
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        /* Social Buttons */
+        .social-links a {
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #0d6efd;
+        }
+
+        /* Footer */
+        footer {
+            background: #212529;
+            color: white;
+        }
+
+        /* Experience */
+
+        .timeline {
+            position: relative;
+            margin: 40px auto;
+            padding-left: 50px;
+            width: 80%;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 30px;
+            width: 4px;
+            background: #2563eb;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 18px;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border: 3px solid #2563eb;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .timeline-logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .timeline-content {
+            margin-left: 70px;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .timeline-content h5 {
+            font-weight: 600;
+        }
+
+        .timeline-content h6 {
+            font-weight: 500;
+        }
+
+        /* Skills Section */
+
+        .skills-title {
+            margin: 40px 0 15px;
+            font-size: 1.5rem;
+            color: #1e3a8a;
+        }
+
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .skill {
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+            font-weight: 500;
+            gap: 8px;
+            padding: 8px 10px;
+            background: #f8fafc;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 1;
+        }
+
+        /* Hover effect */
+        .skill:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hidden before animation */
+        .hidden {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Visible after animation */
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+
+        .skills-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .skills-logos img {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .skills-logos img:hover {
+            transform: scale(1.2);
+        }
+
+        .skills-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+
+        .skills-category {
+            flex: 1;
+            min-width: 45%; /* ensures two per row */
+            text-align: center;
+        }
+
+        .skills-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .skill img {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill img:hover {
+            transform: scale(1.2);
+        }
+
+        .skill p {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        #education .card {
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #education .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        #education h5 {
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        #education ul li {
+            margin-bottom: 6px;
+        }
+
+        #contact .form-control {
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #contact .form-control:focus {
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+            border-color: #0d6efd;
+        }
+
+        #contact .btn-primary {
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        #contact .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        #contact .social-links a {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        #contact .social-links a:hover {
+            color: #0d6efd;
+            transform: translateY(-3px);
+        }
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="images/logo.jpg" alt="Profile" width="35" height="35" class="rounded-circle me-2 shadow-sm">
+            My Portfolio
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+                <!-- Divider -->
+                <li class="nav-item d-none d-lg-block">
+                    <span class="nav-link disabled">|</span>
+                </li>
+
+                <!-- Contact Details -->
+                <li class="nav-item d-flex align-items-center">
+                    <a href="mailto:psaibalaji121@gmail.com" class="me-3"><i class="bi bi-envelope fs-3"></i></a>
+                </li>
+                <li>
+                    <a href="https://github.com/psaibalaji121" target="_blank" class="me-3"><i
+                            class="bi bi-github fs-3"></i></a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/peruru-sai-balaji-532637148/" target="_blank" class="me-3"><i
+                            class="bi bi-linkedin fs-3"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section id="about" class="container py-5">
+    <div class="row align-items-center">
+
+        <!-- Profile Image -->
+        <div class="col-md-4 text-center mb-4 mb-md-0">
+            <img src="images/profile.jpg" alt="peruru sai balaji" class="profile-img img-fluid rounded-circle shadow">
+        </div>
+
+        <!-- About Content -->
+        <div class="col-md-8">
+            <h2 class="section-title">About Me</h2>
+            <p>
+                I’m a <strong>Java Developer</strong> with 4+ years of experience designing and
+                building <strong>scalable microservices</strong>, <strong>RESTful APIs</strong>, and
+                <strong>web scraping solutions</strong>. I specialize in
+                <strong>Spring Boot</strong> and also work with Python when the project demands it.
+            </p>
+            <p>
+                My expertise includes <strong>MongoDB</strong>, <strong>Cassandra</strong>, and
+                <strong>MySQL</strong> for database management, alongside DevOps practices with
+                <strong>Docker</strong>, <strong>Kubernetes</strong>, and <strong>Jenkins</strong>
+                for CI/CD automation. I have integrated <strong>Kafka</strong> and
+                <strong>RabbitMQ</strong> for event-driven and asynchronous systems.
+            </p>
+            <p>
+                I thrive in <strong>Agile environments</strong>, collaborating via
+                <strong>JIRA</strong>, <strong>Bitbucket</strong>, and <strong>Confluence</strong>
+                to deliver high-availability solutions under tight deadlines. I’m passionate about
+                clean architecture, performance optimization, and continuous learning.
+            </p>
+            <a href="PDF/resume.pdf" class="btn btn-primary mt-3" download>📄 Download Resume</a>
+        </div>
+    </div>
+</section>
+
+<section id="experience" class="container py-5">
+    <h2 class="text-center mb-5">Experience</h2>
+    <div class="timeline">
+
+        <!-- Item 1 -->
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <img src="https://logo.clearbit.com/opsecsecurity.com" alt="OpSec" class="timeline-logo">
+            </div>
+            <div class="timeline-content bg-white shadow-sm p-4">
+                <h5 class="mb-1">Software Engineer II</h5>
+                <h6 class="text-primary mb-2">@ OpSec Online India Pvt Ltd</h6>
+                <small class="text-muted"><i class="bi bi-calendar"></i> Aug 2023 – Present</small>
+                Joined as <strong>Software Engineer</strong> and got promoted:
+                <ul>
+                    <li>Software Engineer → Software Engineer II</li>
+                </ul>
+                <p class="mt-2">Developed and maintained web scraping and REST API solutions for the Unified Brand
+                    Protection (UBH) project, targeting e-commerce platforms.</p>
+                <p class="mt-2">Designed QueryProcessors and RetrieveProcessors for ubh-auctions-retrieve to extract
+                    product data, including prices, seller details, and images.</p>
+                <p class="mt-2">Created and optimized ubh-scan-status-service, a Spring Boot based microservice, to
+                    enable scalable and reliable data processing.</p>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <img src="https://logo.clearbit.com/cognizant.com" alt="Cognizant" class="timeline-logo">
+            </div>
+            <div class="timeline-content bg-white shadow-sm p-4">
+                <h5 class="mb-1">Software Engineer</h5>
+                <h6 class="text-primary mb-2">@ Cognizant Technology Solutions, Bangalore, India </h6>
+                <small class="text-muted"><i class="bi bi-calendar"></i> Feb 2021 – July 2023</small>
+                Joined as <strong>Software Engineer Trainee</strong> and got promoted twice:
+                <ul>
+                    <li>Software Engineer Trainee → Jr. Software Engineer</li>
+                    <li>Jr. Software Engineer → Software Engineer</li>
+                </ul>
+                <p class="mt-2">Worked on the Online Brand Protection (OBP) project, maintaining QueryProcessors and
+                    RetrieveProcessors processors to scrape search and product pages from various e-commerce
+                    websites.</p>
+                <p class="mt-2"> Adapted data extraction logic to handle changes in website layouts, ensuring accurate
+                    data collection.</p>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+
+<section id="skills" class="container py-5 text-center">
+    <h2 class="mb-4">Skills</h2>
+
+    <div class="skills-row">
+        <!-- Programming Languages -->
+        <div class="skills-category">
+            <h4 class="skills-title">Programming Languages</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/>
+                    <p>Java</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                         alt="Python"/>
+                    <p>Python</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frameworks -->
+        <div class="skills-category">
+            <h4 class="skills-title">Frameworks</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg"
+                         alt="Spring Boot"/>
+                    <p>Spring Boot</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg"
+                         alt="Spring MVC"/>
+                    <p>Spring MVC</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/hibernate/hibernate-original.svg"
+                         alt="Hibernate"/>
+                    <p>Hibernate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="skills-row">
+        <!-- Databases -->
+        <div class="skills-category">
+            <h4 class="skills-title">Databases</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                         alt="MongoDB"/>
+                    <p>MongoDB</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg"
+                         alt="Cassandra"/>
+                    <p>Cassandra</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"/>
+                    <p>MySQL</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Build Tools -->
+        <div class="skills-category">
+            <h4 class="skills-title">Build Tools</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven"/>
+                    <p>Maven</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg"
+                         alt="Gradle"/>
+                    <p>Gradle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="skills-row">
+        <!-- CI/CD & DevOps -->
+        <div class="skills-category">
+            <h4 class="skills-title">CI/CD & DevOps</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                         alt="Docker"/>
+                    <p>Docker</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg"
+                         alt="Kubernetes"/>
+                    <p>Kubernetes</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg"
+                         alt="Jenkins"/>
+                    <p>Jenkins</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messaging & Monitoring -->
+        <div class="skills-category">
+            <h4 class="skills-title">Messaging & Monitoring</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rabbitmq/rabbitmq-original.svg"
+                         alt="RabbitMQ"/>
+                    <p>RabbitMQ</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg"
+                         alt="Kafka"/>
+                    <p>Kafka</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg"
+                         alt="Grafana"/>
+                    <p>Grafana</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kibana/kibana-original.svg"
+                         alt="Kibana"/>
+                    <p>Kibana</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="skills-row">
+        <!-- Collaboration & Agile -->
+        <div class="skills-category">
+            <h4 class="skills-title">Collaboration & Agile Tools</h4>
+            <div class="skills-logos">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"/>
+                    <p>Git</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" alt="Jira"/>
+                    <p>Jira</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bitbucket/bitbucket-original.svg"
+                         alt="Bitbucket"/>
+                    <p>Bitbucket</p>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/confluence/confluence-original.svg"
+                         alt="Confluence"/>
+                    <p>Confluence</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education -->
+<section id="education" class="container py-5">
+    <h2 class="text-center mb-5">Education</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- IIHT Certification -->
+            <div class="card shadow-sm p-4 mb-4">
+                <div class="d-flex align-items-center">
+                    <img src="images/iiht.png"
+                         alt="IIHT | Cognizant Certificate" width="80" class="me-3 rounded">
+                    <div>
+                        <h5 class="mb-1">IIHT Certification (in collaboration with Cognizant)</h5>
+                        <small class="text-muted">Dec 2022</small>
+                        <p class="mb-0 mt-2">Completed advanced training in Full Stack Engineering (FSE).</p>
+                        <a href="PDF/913044_Sai Balaji Peruru__Participation_Certificate.pdf" target="_blank"
+                           class="btn btn-outline-primary btn-sm mt-2">
+                            View Certificate
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B.Tech Degree -->
+            <div class="card shadow-sm p-4 mb-4">
+                <div class="d-flex align-items-center">
+                    <img src="images/college.png"
+                         alt="Graduation" width="50" class="me-3">
+                    <div>
+                        <h5 class="mb-1">B.Tech in Electronics and Communication Engineering</h5>
+                        <small class="text-muted">2020 – 2024</small>
+                        <p class="mb-0 mt-2">
+                            Rajeev Gandhi Memorial College of Engineering and Technology.
+                            Graduated with strong foundations in programming, systems, and engineering principles.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section id="projects" class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Projects</h2>
+        <div class="row justify-content-center">
+
+            <!-- Project 1 -->
+            <div class="col-md-6 mb-4">
+                <div class="card project-card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Breast Cancer Detection</h5>
+                        <p class="card-text">
+                            A machine learning project using <strong>TensorFlow</strong> for early detection of breast
+                            cancer.
+                            Developed in association with <strong>IndianServers</strong>
+                        </p>
+                        <p class="mb-2"><strong>Technologies:</strong></p>
+                        <div class="d-flex flex-wrap mb-3 gap-2">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                                 width="40" alt="Python" title="Python">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg"
+                                 width="40" alt="TensorFlow" title="TensorFlow">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-plain.svg" width="40"
+                                 alt="Git" title="Git">
+                        </div>
+                        <a href="https://www.linkedin.com/posts/peruru-sai-balaji-532637148_finally-overwhelmed-to-complete-a-project-activity-6703216178170601472-RPVM"
+                           target="_blank" class="btn btn-primary">
+                            View on LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- You can add more project cards here -->
+
+        </div>
+    </div>
+</section>
+
+
+<section id="contact" class="container my-5">
+    <h2 class="text-center mb-5">Contact Me</h2>
+
+    <!-- Contact card -->
+    <div class="card shadow-sm p-4 mx-auto"
+         style="max-width:700px; border-radius:12px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+
+        <!-- Success alert -->
+        <div th:if="${param.success}" class="alert alert-success text-center">
+            ✅ Message sent successfully!
+        </div>
+
+        <!-- Social links -->
+        <div class="social-links text-center mb-4">
+            <a href="https://github.com/psaibalaji121" target="_blank" class="me-3"><i
+                    class="bi bi-github fs-3"></i></a>
+            <a href="https://www.linkedin.com/in/peruru-sai-balaji-532637148/" target="_blank" class="me-3"><i
+                    class="bi bi-linkedin fs-3"></i></a>
+            <a href="mailto:psaibalaji121@gmail.com" class="me-3"><i class="bi bi-envelope fs-3"></i></a>
+        </div>
+
+        <!-- Contact form -->
+        <form th:action="@{/send-message}" th:object="${messageForm}" method="post" class="mx-auto" style="max-width:600px;" id="contactForm">
+
+            <div th:if="${success}" class="alert alert-success text-center">✅ Message sent successfully!</div>
+
+            <div class="mb-3">
+                <input type="text" th:field="*{name}" placeholder="Name" class="form-control"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+            <div class="mb-3">
+                <input type="email" th:field="*{email}" placeholder="Email" class="form-control"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+            <div class="mb-3">
+                <textarea th:field="*{message}" placeholder="Message" class="form-control"></textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" id="sendButton">
+                <span id="buttonText">Send Message</span>
+                <span id="spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+            </button>
+        </form>
+
+    </div>
+</section>
+
+
+<footer class="text-center py-3">
+    © 2025 Peruru Sai Balaji | Portfolio
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const timeline = document.querySelector(".timeline");
+        const items = document.querySelectorAll(".timeline-item");
+
+        function checkScroll() {
+            const triggerBottom = window.innerHeight * 0.85;
+
+            if (timeline && timeline.getBoundingClientRect().top < triggerBottom) {
+                timeline.classList.add("animate");
+            }
+
+            items.forEach(item => {
+                if (item.getBoundingClientRect().top < triggerBottom) {
+                    item.classList.add("show");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", checkScroll);
+        checkScroll();
+    });
+</script>
+
+<script>
+    const skills = document.querySelectorAll('.skill');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target); // animate once
+            }
+        });
+    }, {threshold: 0.2});
+
+    skills.forEach(skill => observer.observe(skill));
+</script>
+<script>
+    const form = document.getElementById('contactForm');
+    const button = document.getElementById('sendButton');
+    const spinner = document.getElementById('spinner');
+    const buttonText = document.getElementById('buttonText');
+
+    form.addEventListener('submit', () => {
+        // Show spinner and disable button
+        spinner.classList.remove('d-none');
+        buttonText.textContent = 'Sending...';
+        button.disabled = true;
+    });
+</script>
+
+
+</body>
+</html>
