@@ -744,29 +744,6 @@
         </div>
 
         <!-- Contact form -->
-        <form th:action="@{/send-message}" th:object="${messageForm}" method="post" class="mx-auto" style="max-width:600px;" id="contactForm">
-
-            <div th:if="${success}" class="alert alert-success text-center">✅ Message sent successfully!</div>
-
-            <div class="mb-3">
-                <input type="text" th:field="*{name}" placeholder="Name" class="form-control"/>
-                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-            </div>
-            <div class="mb-3">
-                <input type="email" th:field="*{email}" placeholder="Email" class="form-control"/>
-                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-            </div>
-            <div class="mb-3">
-                <textarea th:field="*{message}" placeholder="Message" class="form-control"></textarea>
-                <div class="text-danger" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100" id="sendButton">
-                <span id="buttonText">Send Message</span>
-                <span id="spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
-            </button>
-        </form>
-
     </div>
 </section>
 
